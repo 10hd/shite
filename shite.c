@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+#define SIZE 999999
+
 int main(int argc, char *argv[]) {
     if (argc < 2 || argv[1] == NULL) {
         printf("\e[31mError:\n No file to edit!\e[0m\n");
@@ -14,17 +16,16 @@ int main(int argc, char *argv[]) {
     int inp;
     int st = 0;
 
-    FILE *fptr;
-
-    char buffer[123456];
+    char buffer[SIZE];
     int index = 0;
 
-    while (1) {
-        inp = getchar();
+    while ((inp = getchar()) != EOF) {
 
-        if (index < 123455) {
-            buffer[index] = inp;
+        if (index < SIZE - 1) {
+            buffer[index] = (char)inp;
             index++;
+        } else {
+            printf("\n\e[31mError: Buffer full!\e[0m\n");
         }
 
         if (inp == ':') {
@@ -36,11 +37,17 @@ int main(int argc, char *argv[]) {
         } else if (inp == 'b' && st == 2) {
             index -= 3;
 
+            if (index < 0) {
+                index = 0;
+            }
+
             if (index > 0 && buffer[index -1 ] == '\n') {
                 index--;
             }
+
+            st = 0;
         } else if (inp == 'w' && st == 2) {
-            fptr = fopen(path, "w");
+            FILE *fptr = fopen(path, "w");
             
             if (fptr != NULL) {
                 for (int i = 0; i < (index - 3); i++) {
