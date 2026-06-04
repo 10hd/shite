@@ -28,4 +28,5 @@ The commands are written directly in the editor which is confusing but I guess i
 
 * `:\w` + `Enter` — Write to file and quit.
 * `:\q` + `Enter` — Quit without writing.
-* `:\b` + `Enter` — Delete previous newline.
+* `:\b` — Delete previous newline when written. Write at start of new line.
+* `:\d[number]` — Delete the specified amount of characters when written.
